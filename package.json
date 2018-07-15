@@ -1,0 +1,13 @@
+{
+  "version": "0.1.1",
+  "scripts": {
+    "bench": "node --experimental-worker xrp-redis-walletgen.js 1000 --out=gen",
+    "bench:workers": "node --experimental-worker xrp-redis-walletgen.js 1000 --use-workers --out=gen"
+  },
+  "engine": {
+    "node": ">=10.5.0"
+  },
+  "dependencies": {
+    "ripple-keypairs": "^0.10.1"
+  }
+}
