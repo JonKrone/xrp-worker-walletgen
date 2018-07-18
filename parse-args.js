@@ -31,7 +31,7 @@ if (outArg) {
   out = outArg.split('=')[1]
 } else {
   // use a generated filename
-  out = `keys-${String(Math.random()).slice(2, 8)}`
+  out = `keys-${String(Math.random()).slice(2, 7)}`
 }
 
 // Checks

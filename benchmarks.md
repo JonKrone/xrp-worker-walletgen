@@ -1,9 +1,8 @@
-single-core:
-1k: 7252.510ms
-10k: 73779.067ms
-ratio: ~10
+# Formatted output from ./bench.sh
 
-multi-core:
-1k: 2925.777ms
-10k: 16448.498ms
-ratio: ~5.5
+| # cores | 1,000 keys | 20,000 keys |
+| ------- | ---------- | ----------- |
+| 1       | 8.7s       | 140.3s      |
+| 6       | 3.0s       | 38.7s       |
+
+The multi-threaded workload has some overhead but saves overall compute time

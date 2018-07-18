@@ -7,8 +7,7 @@
     "xrp-redis-walletgen": "./"
   },
   "scripts": {
-    "start": "node --experimental-worker . 1000",
-    "start:no-workers": "node --experimental-worker . 1000 --no-workers"
+    "start": "node --experimental-worker . 1000"
   },
   "dependencies": {
     "ripple-keypairs": "^0.10.1"

@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { Worker } = require('worker_threads')
 
 module.exports = async function main({ out, cpus, attempts, noWorkers }) {
   const file = fs.createWriteStream(out)
@@ -15,6 +14,7 @@ module.exports = async function main({ out, cpus, attempts, noWorkers }) {
   }
   // else divvy the work among separate workers
 
+  const { Worker } = require('worker_threads')
   let workers = []
   for (let i = 0; i < cpus; i++) {
     workers.push(
