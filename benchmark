@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu -o pipefail
+
 # numeric average of an array
 average() {
   arr=$1
@@ -16,7 +18,7 @@ average() {
 
 microToMilli=1000 # ns to ms time conversion
 bench() {
-  command=$1
+  command="$1"
   runs=$2
   perf=()
 
