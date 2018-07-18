@@ -1,12 +1,12 @@
 const fs = require('fs')
 const { Worker } = require('worker_threads')
 
-module.exports = async function main({ out, cpus, attempts, useWorkers }) {
+module.exports = async function main({ out, cpus, attempts, noWorkers }) {
   const file = fs.createWriteStream(out)
 
   console.time('Time spent')
 
-  if (!useWorkers) {
+  if (noWorkers) {
     // have one worker perform all attempts
     const { keys } = require('./worker')({ attempts })
     console.log('Output:', out)
@@ -21,7 +21,7 @@ module.exports = async function main({ out, cpus, attempts, useWorkers }) {
       new Worker('./worker.js', {
         workerData: {
           attempts: Math.ceil(attempts / cpus),
-          batchSize: 100, // low-for-fun
+          batchSize: Number.POSITIVE_INFINITY,
         },
       })
     )

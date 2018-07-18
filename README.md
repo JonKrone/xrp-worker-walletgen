@@ -22,7 +22,7 @@ If the code is running in background on Linux then you can logout and as long as
 
 ## Options
 
-`--out=<filename></filename>` Specifies the output filename. Don't provide to have it auto-generate
+`--out=<filename>` Specifies the output filename. Don't provide to have it auto-generate
 
 `--no-workers` Don't use multiple threads
 
