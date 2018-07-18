@@ -14,13 +14,11 @@ average() {
   echo $avg
 }
 
-
-# ns to ms ratio is wrong
+microToMilli=1000 # ns to ms time conversion
 bench() {
   command=$1
   runs=$2
   perf=()
-  nanoToMilli=1000 # ns to ms time conversion
 
   for i in `seq 1 $runs`
   do
@@ -28,10 +26,9 @@ bench() {
     $command # 1> /dev/null
     end=$(date +%s.%N)
 
-    dur=$(echo "($end - $start) * $nanoToMilli" | node -p)
+    dur=$(echo "($end - $start) * $microToMilli" | node -p)
     dur=${dur%.*}
 
-    echo "finished run: $i"
     perf+=($dur)
   done
 
@@ -40,12 +37,12 @@ bench() {
   echo ""
   echo "Command: $command"
   echo "Runs: $runs"
-  echo "avg run time: ${avg}ms"
+  echo "Avg run time: ${avg}ms"
 }
 
 # A 1000-key run
-# bench "node --experimental-worker . 1000" 10
-# bench "node --experimental-worker . 1000 --no-workers" 10
+bench "node --experimental-worker . 1000" 10
+bench "node --experimental-worker . 1000 --no-workers" 10
 
 # A 20000-key run
 bench "node --experimental-worker . 20000" 10
