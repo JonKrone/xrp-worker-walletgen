@@ -4,6 +4,10 @@ XRP massive wallet generation with output formatted for mass input into redis
 
 This code is intended to create massive amounts of wallets to import into a redis database to search for vanity strings.
 
+> NOTE: This tools uses `Worker Threads`, an experimental feature available in Node `>=10.5.0`
+>
+> To enable it, pass `--experimental-worker` when you run node
+
 ## Install
 
 ```shell
@@ -14,9 +18,11 @@ $ npm i
 
 ## Usage
 
-`node . <number-of-attempts> [options]`
+```shell
+$ node --experimental-worker . <number-of-attempts> [options]
+```
 
-In Linux you can run this in the background with: `nohup node . 100000 &`
+In Linux you can run this in the background with: `nohup node --experimental-worker . 100000 &`
 
 If the code is running in background on Linux then you can logout and as long as the computer is running the code will continue to run
 
@@ -50,3 +56,8 @@ Ripple wallets are base58 encoded, start with `r` and contain the following char
 > Redis: https://redis.io/
 
 > Quickstart: https://redis.io/topics/quickstart
+
+## Future
+
+- Use SharedArrayBuffer, take real advantage of Workers
+- WASM?
