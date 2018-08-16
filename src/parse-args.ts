@@ -1,8 +1,17 @@
-const fs = require('fs')
-const path = require('path')
-const numCPUs = require('os').cpus().length
+import { existsSync } from 'fs'
+import { join } from 'path'
+import { cpus } from 'os'
 
-module.exports = function parseArgs() {
+const numCPUs = cpus().length
+
+export interface CliArgs {
+  out: string
+  attempts: number
+  noWorkers: boolean
+  cpus: number
+}
+
+export function parseArgs(): CliArgs {
   const args = process.argv.slice(2)
 
   const noWorkers = args.includes('--no-workers')
@@ -28,10 +37,10 @@ module.exports = function parseArgs() {
     out = outArg.split('=')[1]
   } else {
     // use a generated filename
-    out = path.join('out', `keys-${String(Math.random()).slice(2, 7)}`)
+    out = join('out', `keys-${String(Math.random()).slice(2, 7)}`)
   }
 
-  if (fs.existsSync(out)) {
+  if (existsSync(out)) {
     throw new Error('Output path already exists')
   }
 
