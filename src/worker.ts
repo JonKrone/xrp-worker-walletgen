@@ -1,13 +1,25 @@
-const { isMainThread, workerData, parentPort } = require('worker_threads')
-const rk = require('ripple-keypairs')
+import { isMainThread, workerData, parentPort } from 'worker_threads'
+import rk from 'ripple-keypairs'
 
 // Running as a true Worker?: self-execute
 if (!isMainThread) {
-  worker(workerData)
+  genKeys(workerData)
 }
 
-module.exports = worker
-function worker({ attempts, batchSize = attempts }) {
+export interface GenKeyArgs {
+  attempts: number
+  batchSize?: number
+}
+
+export interface GenKeyResult {
+  keys: string[]
+  done: boolean
+}
+
+export function genKeys({
+  attempts,
+  batchSize = attempts,
+}: GenKeyArgs): GenKeyResult {
   let keys = []
   let wallet = null
   let seed = null
@@ -37,11 +49,10 @@ function worker({ attempts, batchSize = attempts }) {
   return respond(keys, true)
 }
 
-function respond(keys, done) {
+function respond(keys: string[], done: boolean): GenKeyResult {
   const result = { keys, done }
-  if (!isMainThread) {
+  if (!isMainThread && parentPort) {
     parentPort.postMessage(result)
-  } else {
-    return result
   }
+  return result
 }
