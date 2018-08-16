@@ -1,13 +1,15 @@
-const fs = require('fs')
-const { Worker } = require('worker_threads')
+import { createWriteStream } from 'fs'
+import { Worker } from 'worker_threads'
+import { genKeys, GenKeyResult } from './worker'
+import { CliArgs } from './parse-args'
 
-module.exports = async function main({ out, cpus, attempts, noWorkers }) {
-  const file = fs.createWriteStream(out)
+export async function main({ out, cpus, attempts, noWorkers }: CliArgs) {
+  const file = createWriteStream(out)
 
+  // have one worker perform all attempts
   if (noWorkers) {
-    // have one worker perform all attempts
-    const { keys } = require('./worker')({ attempts })
-    console.log('Written to file:', out)
+    const { keys } = genKeys({ attempts })
+    console.log(attempts, 'keys written to file:', out)
     return await file.write(keys.join(''))
   }
   // else divvy the work among separate workers
@@ -26,7 +28,7 @@ module.exports = async function main({ out, cpus, attempts, noWorkers }) {
 
   let numDone = 0
   workers.forEach(worker => {
-    worker.on('message', message => {
+    worker.on('message', (message: GenKeyResult) => {
       const { keys, done } = message
       if (done) {
         numDone++
@@ -41,9 +43,9 @@ module.exports = async function main({ out, cpus, attempts, noWorkers }) {
       }
     })
 
-    worker.on('error', (...args) => {
+    worker.on('error', (err: Error) => {
       numDone++
-      console.error('worker error:', ...args)
+      console.error('worker error:', err)
     })
     worker.on('exit', () => {})
   })
