@@ -17,7 +17,7 @@ export async function main({ out, cpus, attempts, noWorkers }: CliArgs) {
   let workers = []
   for (let i = 0; i < cpus; i++) {
     workers.push(
-      new Worker('./src/worker.js', {
+      new Worker('./dist/src/worker.js', {
         workerData: {
           attempts: Math.ceil(attempts / cpus),
           batchSize: Number.POSITIVE_INFINITY,

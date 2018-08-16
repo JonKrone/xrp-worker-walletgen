@@ -4,10 +4,11 @@
     "node": ">=10.5.0"
   },
   "bin": {
-    "xrp-redis-walletgen": "./"
+    "xrp-redis-walletgen": "./dist/index.js"
   },
   "scripts": {
-    "start": "node --experimental-worker . 1000"
+    "test": "tsc && node --experimental-worker ./dist 1000",
+    "benchmark": "./benchmark"
   },
   "dependencies": {
     "ripple-keypairs": "^0.10.1"

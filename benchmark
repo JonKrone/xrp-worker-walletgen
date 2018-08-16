@@ -43,9 +43,9 @@ bench() {
 }
 
 # A 1000-key run
-bench "node --experimental-worker . 1000" 10
-bench "node --experimental-worker . 1000 --no-workers" 10
+bench "node --experimental-worker ./dist 1000" 10
+bench "node --experimental-worker ./dist 1000 --no-workers" 10
 
 # A 20000-key run
-bench "node --experimental-worker . 20000" 10
-bench "node --experimental-worker . 20000 --no-workers" 10
+bench "node --experimental-worker ./dist 20000" 10
+bench "node --experimental-worker ./dist 20000 --no-workers" 10
