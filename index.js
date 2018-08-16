@@ -1,3 +1,6 @@
 // XRP massive wallet generation formatted for mass input into redis
 
-require('./src/main-thread')(require('./src/parse-args')())
+import { main } from './src/main-thread'
+import { parseArgs } from './src/parse-args'
+
+main(parseArgs())
